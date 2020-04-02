@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Flaming Rain</title>
+  <style media="screen">
+    *{padding: 0;margin: 0;box-sizing: border-box;}
+    body{display: flex;align-items: center;justify-content: center;min-height: 100vh}
+    span{
+      position: absolute;
+      top:10px;
+    }
+    #score{
+      left: 10px;
+    }
+    #funny-comments{
+      right: 10px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+    #game-over{
+      position: absolute;
+      top:0;left:0;
+      display: none;align-items: center;justify-content: center;flex-direction: column;
+      min-height: 100vh;
+      width: 100%;
+      background: rgba(0,0,0,.93);
+    }
+    #final-score{
+      font-size: 40px;
+      color: #fff;
+      margin: 20px
+    }
+    button{
+      cursor: pointer;outline: none;border: 1px solid #fff;
+      background: #0080ff;
+      color: #fff;
+      padding: 7px 20px;
+      font-size: 26px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <span id="score"></span>
+  <span id="funny-comments"></span>
+  <div id="game-over">
+    <p id="final-score"></p>
+    <button id="restart">restart</button>
+  </div>
+  <script src="./p5.min.js"></script>
+  <script src="./player.js"></script>
+  <script src="./flame.js"></script>
+  <script src="./main.js"></script>
+</body>
+</html>
