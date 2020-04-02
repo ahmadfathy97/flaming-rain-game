@@ -14,6 +14,10 @@ let gameOver = document.getElementById('game-over');
 let finalScore = document.getElementById('final-score');
 let rstbtn = document.getElementById('restart');
 
+var dragging = false;
+var rollover = false;
+var offsetX, offsetY;
+
 
 function setup() {
   window.onresize = ()=>{
@@ -55,7 +59,45 @@ function keyPressed(){
   }
 }
 
+
+
+/////////////////
+// for mobile
+
+function mousePressed() {
+  if (mouseX > player.x && mouseX < player.x + player.w && mouseY > player.y && mouseY < player.y + player.h) {
+    dragging = true;
+    offsetX = player.x-mouseX;
+    offsetY = player.y-mouseY;
+  }
+}
+
+function mouseReleased() {
+  dragging = false;
+}
+
+/////////////////////////
+
 function draw() {
+  if (mouseX > player.x && mouseX < player.x + player.w && mouseY > player.y && mouseY < player.y + player.h) {
+    rollover = true;
+  }
+  else {
+    rollover = false;
+  }
+  if (dragging) {
+    player.x = mouseX + offsetX;
+    player.y = mouseY + offsetY;
+  }
+
+  stroke(0);
+  if (dragging) {
+    fill (50);
+  } else if (rollover) {
+    fill(100);
+  } else {
+    fill(175, 200);
+  }
   background(220);
   player.show();
   player.move();
