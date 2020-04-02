@@ -1,2 +1,2 @@
-# [flaming game](https://flaming-rain.netlify.com/ "flaming game")
+# [flaming Rain](https://flaming-rain.netlify.com/ "flaming Rain")
 ## p5.js

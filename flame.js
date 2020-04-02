@@ -10,7 +10,7 @@ class Flame {
     this.y += this.ydir;
   }
   show(){
-    fill(255, 5, 5);
+    fill(255, 24, 102);
     noStroke();
     circle(this.x, this.y, this.w, this.h);
   }

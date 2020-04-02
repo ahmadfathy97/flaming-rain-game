@@ -1,11 +1,17 @@
-let player, flame,flames = [],end = false,score = 0,
-funnyYells = [
-  "اوعي كده",
-  "حاسب كده",
-  "عديني انا بس كده",
-  "حاسب ام الطوباااا",
-  "وسع كده"
-];
+let player,
+    flame,
+    flames = [],
+    end = false,
+    score = 0,
+    paused = true,
+    funnyYells = [
+      "اوعي كده",
+      "حاسب كده",
+      "عديني انا بس كده",
+      "حاسب ام الطوباااا",
+      "وسع كده",
+      "مشيني انا بس كده"
+    ];
 
 
 let scoreElem = document.getElementById('score');
@@ -14,23 +20,31 @@ let gameOver = document.getElementById('game-over');
 let finalScore = document.getElementById('final-score');
 let rstbtn = document.getElementById('restart');
 
-var dragging = false;
-var rollover = false;
-var offsetX, offsetY;
+// start function
+function start() {
+  setTimeout(()=>{
+    loop();
+    paused = false
+  }, 1000);
+}
 
 
+// creating the canvas and starting the game
 function setup() {
   window.onresize = ()=>{
     createCanvas(innerWidth - 20, innerHeight - 20);
   }
   createCanvas(innerWidth - 20 , innerHeight- 20);
-
+  noLoop();
+  start();
   player = new Player((width/2) -40,height - 40, 40, 40);
   let randX = Math.floor(random(width)),
       randY = Math.floor(random(-150));
 }
-let interval = setInterval(function(){
-  if(!end){
+
+// creating new flames
+setInterval(function(){
+  if(!end && !paused){
     let randX = Math.floor(random(width)),
     randY = Math.floor(random(-150));
 
@@ -42,11 +56,14 @@ let interval = setInterval(function(){
   }
 }, 160);
 
-let interval2 = setInterval(function(){
-  if(!end){
+// showing some funny comments
+setInterval(function(){
+  if(!end && !paused){
     fnycmnts.textContent = funnyYells[Math.floor(Math.random() * funnyYells.length)]
   }
 }, 3000);
+
+// keys control
 function keyPressed(){
   if (keyCode === LEFT_ARROW){
     player.setMove(-3, 0)
@@ -61,8 +78,10 @@ function keyPressed(){
 
 
 
-/////////////////
-// for mobile
+// for mouse and touch
+var dragging = false;
+var rollover = false;
+var offsetX, offsetY;
 
 function mousePressed() {
   if (mouseX > player.x && mouseX < player.x + player.w && mouseY > player.y && mouseY < player.y + player.h) {
@@ -71,14 +90,13 @@ function mousePressed() {
     offsetY = player.y-mouseY;
   }
 }
-
 function mouseReleased() {
   dragging = false;
 }
 
-/////////////////////////
-
 function draw() {
+
+  // for mouse and touch
   if (mouseX > player.x && mouseX < player.x + player.w && mouseY > player.y && mouseY < player.y + player.h) {
     rollover = true;
   }
@@ -90,14 +108,7 @@ function draw() {
     player.y = mouseY + offsetY;
   }
 
-  stroke(0);
-  if (dragging) {
-    fill (50);
-  } else if (rollover) {
-    fill(100);
-  } else {
-    fill(175, 200);
-  }
+  //drawing the player and the flames
   background(220);
   player.show();
   player.move();
@@ -110,20 +121,24 @@ function draw() {
       GameOverFn();
     }
   });
+
+  // if player hit the walls
   if(player.killed(width, height)){
     noLoop();
     end = true;
     GameOverFn();
   }
+  // increament the score by 5
   scoreElem.textContent = Math.round(score += 5);
 }
 
-
+// ending the game and show the score
 function GameOverFn() {
   gameOver.style.display = "flex";
   finalScore.textContent = score
 }
 
+//restart btn
 rstbtn.onclick = function(){
   gameOver.style.display = "none";
   score = 0;
@@ -131,4 +146,19 @@ rstbtn.onclick = function(){
   player = new Player((width/2) -40,height - 40, 40, 40);
   flames = [];
   loop();
+}
+
+// when the player click outside the game window, He will pause the game.
+window.onblur = ()=>{
+  if(!end){
+    noLoop();
+    paused = true;
+  }
+}
+
+// when the player click return to the game, The game will be resumend after 1 second.
+window.onfocus = ()=>{
+  if(!end){
+    start()
+  }
 }

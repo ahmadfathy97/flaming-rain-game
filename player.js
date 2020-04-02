@@ -12,7 +12,7 @@ class Player {
     this.y += this.ydir;
   }
   show(){
-    fill(20, 20, 230);
+    fill(36, 81, 144);
     circle(this.x, this.y, this.w);
   }
   setMove(x,y){
